@@ -75,10 +75,10 @@ class Audio_Analyzer():
         audio = AudioFile()
         for phrase in audio:
             print('-' * 28)
-            print('| %5s |  %3s  |  %3s  |   %4s   |' % ('start', 'end', 'duration', 'word'))
+            print('| %5s |  %3s  |  %8s  |  %18s  |   %4s   |' % ('start', 'end', 'duration', 'syllables per word', 'word'))
             print('-' * 28)
             for s in phrase.seg():
-                print('| %4ss | %4ss | %4ss | %8s |' % (s.start_frame / fps, s.end_frame / fps, round(s.end_frame / fps - s.start_frame / fps, 2), s.word))
+                print('| %4ss | %4ss | %4ss | %4s | %8s |' % (s.start_frame / fps, s.end_frame / fps, round(s.end_frame / fps - s.start_frame / fps, 2), round(sylco(s.word)), s.word))
             print('-' * 28)
 
 
