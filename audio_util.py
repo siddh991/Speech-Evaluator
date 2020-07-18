@@ -10,12 +10,13 @@ import os
     ******************************************************************
 '''
 
-def read_file(filename):
+def read_file(hypdir, filename):
     ''' Takes in a file name and reads it in as a list of words
         Assuming the file is space delimited and is one continuous
         line of text
     '''
-    with open(filename, 'r') as f:
+    filepath = os.path.join(hypdir, filename)
+    with open(filepath, 'r') as f:
         return f.read().split()
         
 def preprocess_segments(segments):

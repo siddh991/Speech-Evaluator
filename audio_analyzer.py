@@ -18,8 +18,8 @@ from exceptions import *
     ***************************************************************
 '''
 
-#MODELDIR = "/anaconda3/envs/speech-evaluator/lib/python3.6/site-packages/pocketsphinx/model"
-MODELDIR = "/Users/rishabh.patni/opt/anaconda3/lib/python3.6/site-packages/pocketsphinx/model"
+MODELDIR = "/anaconda3/envs/speech-evaluator/lib/python3.6/site-packages/pocketsphinx/model"
+#MODELDIR = "/Users/rishabh.patni/opt/anaconda3/lib/python3.6/site-packages/pocketsphinx/model"
 DATADIR = "audio_data" #wav files
 HYPDIR = "audio_data/hypothesis" # stores test hypotheses
 
@@ -27,6 +27,7 @@ class Audio_Analyzer():
 
     def __init__(self, filename):
         self.filename = filename
+        self.hyp_filename = 'hypothesis-'+self.filename.split('.')[0]+'.txt'
         # create a decoder
         self.config = Decoder.default_config()
         self.config.set_string('-audio_file', path.join(DATADIR, self.filename))
@@ -40,6 +41,14 @@ class Audio_Analyzer():
             for word in segments:
                 o.write(word+' ')
         o.close()
+
+    def complexity(self):
+        read = read_file(HYPDIR, self.hyp_filename) # original segments
+        preprocessed = preprocess_segments(read) # only spoken words
+        word_count = len(preprocessed)
+        letter_count = sum([len(word) for word in preprocessed])
+        complexity = letter_count / word_count
+        print('complexity: ', complexity)
 
     def decode(self):
         ''' Decode streaming data.'''
@@ -56,7 +65,7 @@ class Audio_Analyzer():
                 break
         decoder.end_utt()
         segments = [seg.word for seg in decoder.seg()]
-        f = 'hypothesis-'+self.filename.split('.')[0]+'.txt'
+        f = self.hyp_filename
         print ('Best hypothesis segments: ', [seg.word for seg in decoder.seg()])
         self.write_hypothesis(f, segments)
         return segments
@@ -97,6 +106,7 @@ class Audio_Analyzer():
             new_list = preprocess_segments(segments)
             print('\n************* RESULTS ****************')
             filler_words(new_list)
+            self.complexity()
 
         else:
             raise Invalid_Audio_File_Format
