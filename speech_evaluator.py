@@ -6,25 +6,23 @@ import wave
 import audio_analyzer
 
 ''' ******************** speech_evaluator.py **********************
-    This file takes in an audio file (or multiple files) and uses 
+    This file takes in an audio file (or multiple files) and uses
     the automatic speech recognition (ASR) system CMUPocketSphinx
-    to generate a transcription for the files, writes each of the 
+    to generate a transcription for the files, writes each of the
     results to a hypothesis file and reports the frequencies of the
-    use of filler words ("um" and "uhh" for now) compared to the 
+    use of filler words ("um" and "uhh" for now) compared to the
     gold standard.
     ***************************************************************
 '''
 
 if __name__=='__main__':
     start = time.time()
-
-    audio_analyzer = audio_analyzer.Audio_Analyzer()
-
     if len(sys.argv) == 2:
-        # if one argument provided, it's a filename 
+        # if one argument provided, it's a filename
         # and assume the data directory is the default data directory
         filename = sys.argv[1]
-        audio_analyzer.analyze_audio(filename)
+        audio_analyzer = audio_analyzer.Audio_Analyzer(filename)
+        audio_analyzer.analyze_audio()
     else:
         print('ERROR: invalid # of arguement')
 
