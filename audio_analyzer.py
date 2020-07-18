@@ -18,8 +18,8 @@ from exceptions import *
     ***************************************************************
 '''
 
-MODELDIR = "/anaconda3/envs/speech-evaluator/lib/python3.6/site-packages/pocketsphinx/model"
-#MODELDIR = "/Users/rishabh.patni/opt/anaconda3/lib/python3.6/site-packages/pocketsphinx/model"
+#MODELDIR = "/anaconda3/envs/speech-evaluator/lib/python3.6/site-packages/pocketsphinx/model"
+MODELDIR = "/Users/rishabh.patni/opt/anaconda3/lib/python3.6/site-packages/pocketsphinx/model"
 DATADIR = "audio_data" #wav files
 HYPDIR = "audio_data/hypothesis" # stores test hypotheses
 
@@ -31,7 +31,6 @@ class Audio_Analyzer():
         
         # create a decoder
         self.config = Decoder.default_config()
-        self.config.set_string('-audio_file', path.join(DATADIR, self.filename))
         self.config.set_string('-hmm', path.join(MODELDIR, 'en-us'))
         self.config.set_string('-lm', path.join(MODELDIR, 'en-us.lm.bin'))
         self.config.set_string('-dict', path.join(MODELDIR, 'cmudict-en-us.dict'))
@@ -94,13 +93,21 @@ class Audio_Analyzer():
 
     def speed(self):
         fps = 100
-        audio = AudioFile()
+        config = {
+            'verbose': False,
+            'audio_file': path.join(DATADIR, self.filename),
+            'hmm': path.join(MODELDIR, 'en-us'),
+            'lm': path.join(MODELDIR, 'en-us.lm.bin'),
+            'dict': path.join(MODELDIR, 'cmudict-en-us.dict')
+        }
+
+        audio = AudioFile(**config)
         for phrase in audio:
             print('-' * 28)
-            print('| %5s |  %3s  |  %3s  |   %4s   |' % ('start', 'end', 'duration', 'word'))
+            print('| %5s |  %3s  |  %8s  |  %18s  |   %4s   |' % ('start', 'end', 'duration', 'syllables per word', 'word'))
             print('-' * 28)
             for s in phrase.seg():
-                print('| %4ss | %4ss | %4ss | %8s |' % (s.start_frame / fps, s.end_frame / fps, round(s.end_frame / fps - s.start_frame / fps, 2), s.word))
+                print('| %5ss | %3ss | %8ss | %18s | %4s |' % (s.start_frame / fps, s.end_frame / fps, round(s.end_frame / fps - s.start_frame / fps, 2), round(sylco(s.word)), s.word))
             print('-' * 28)
 
 
@@ -132,4 +139,4 @@ class Audio_Analyzer():
             self.speed()
 
         else:
-            raise Invalid_Audio_File_Format
+            raise InvalidAudioFileFormat
