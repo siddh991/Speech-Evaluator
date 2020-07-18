@@ -34,28 +34,6 @@ def preprocess_segments(segments):
                 new_list.append(word)
     return new_list
 
-def filler_words(segments, filler='[SPEECH]'):
-    ''' Takes in a list of the hypothesis segments and an optional parameter as
-        the filler word to search for and returns the % of the filler word's
-        occurrence. The default filler word to search for is 'um' or 'uh',
-        represented as "[SPEECH]" in the hypothesis files.
-        This function assumes that the segments passed in is already cleaned up
-        (only contains words spoken, no <s>, </s>, <sil>, or [NOISE])
-    '''
-    if not filler == '[SPEECH]':
-        filler = filler.lower()
-
-    num_filler = segments.count(filler)
-    total_words = len(segments)
-    print('total_words:', total_words)
-    if filler == '[SPEECH]':
-        filler = 'um or uh' # for better printing in the results
-    print('number of ', filler,'said:', num_filler)
-    percent = num_filler/total_words
-    print('percent of filler words', percent)
-    print('compared to TED standard frequency of filler words (0.005589%)...')
-    compare_to_standard(percent, 0.005589) # gold standard is hard coded into the program right now
-    return percent
 
 def compare_to_standard(percent, standard):
     ''' This function takes in the percentage of the user's usage of filler
@@ -163,19 +141,19 @@ def sylco(word):
         return syl(word.lower())
 
 
-if __name__=='__main__':
-    DATADIR = sys.argv[1] #directory to read the hypothesis files from
-    # assumes the directory provided only contains text files of the hypotheses
-    for f in os.listdir(DATADIR):
-        if not f.startswith('.') and os.path.isfile(os.path.join(DATADIR, f)):
-            print('file is:', f)
-            filename = os.path.join(DATADIR, f)
-            read = read_file(filename) # original segments
-            preprocessed = preprocess_segments(read) # only spoken words
-            print('\n*********** FILE: ', f, '****************')
-            ums = filler_words(preprocessed)
-            #likes = filler_words(preprocessed, 'like') #<-- inaccurate
-            silences = filler_words(read, '<sil>')
-            print('% of "um"s said ([\'SPEECH\'])', ums)
-            #print '% of "like"s said', likes
-            print('% of "<sil>"', silences)
+# if __name__=='__main__':
+#     DATADIR = sys.argv[1] #directory to read the hypothesis files from
+#     # assumes the directory provided only contains text files of the hypotheses
+#     for f in os.listdir(DATADIR):
+#         if not f.startswith('.') and os.path.isfile(os.path.join(DATADIR, f)):
+#             print('file is:', f)
+#             filename = os.path.join(DATADIR, f)
+#             read = read_file(filename) # original segments
+#             preprocessed = preprocess_segments(read) # only spoken words
+#             print('\n*********** FILE: ', f, '****************')
+#             ums = filler_words(preprocessed)
+#             #likes = filler_words(preprocessed, 'like') #<-- inaccurate
+#             silences = filler_words(read, '<sil>')
+#             print('% of "um"s said ([\'SPEECH\'])', ums)
+#             #print '% of "like"s said', likes
+#             print('% of "<sil>"', silences)
