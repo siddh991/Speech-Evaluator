@@ -162,20 +162,19 @@ def sylco(word):
     else:
         return syl(word.lower())
 
-
-if __name__=='__main__':
-    DATADIR = sys.argv[1] #directory to read the hypothesis files from
-    # assumes the directory provided only contains text files of the hypotheses
-    for f in os.listdir(DATADIR):
-        if not f.startswith('.') and os.path.isfile(os.path.join(DATADIR, f)):
-            print('file is:', f)
-            filename = os.path.join(DATADIR, f)
-            read = read_file(filename) # original segments
-            preprocessed = preprocess_segments(read) # only spoken words
-            print('\n*********** FILE: ', f, '****************')
-            ums = filler_words(preprocessed)
-            #likes = filler_words(preprocessed, 'like') #<-- inaccurate
-            silences = filler_words(read, '<sil>')
-            print('% of "um"s said ([\'SPEECH\'])', ums)
-            #print '% of "like"s said', likes
-            print('% of "<sil>"', silences)
+# if __name__=='__main__':
+#     DATADIR = sys.argv[1] #directory to read the hypothesis files from
+#     # assumes the directory provided only contains text files of the hypotheses
+#     for f in os.listdir(DATADIR):
+#         if not f.startswith('.') and os.path.isfile(os.path.join(DATADIR, f)):
+#             print('file is:', f)
+#             filename = os.path.join(DATADIR, f)
+#             read = read_file(filename) # original segments
+#             preprocessed = preprocess_segments(read) # only spoken words
+#             print('\n*********** FILE: ', f, '****************')
+#             ums = filler_words(preprocessed)
+#             #likes = filler_words(preprocessed, 'like') #<-- inaccurate
+#             silences = filler_words(read, '<sil>')
+#             print('% of "um"s said ([\'SPEECH\'])', ums)
+#             #print '% of "like"s said', likes
+#             print('% of "<sil>"', silences)

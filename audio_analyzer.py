@@ -18,8 +18,8 @@ from exceptions import *
     ***************************************************************
 '''
 
-MODELDIR = "/anaconda3/envs/speech-evaluator/lib/python3.6/site-packages/pocketsphinx/model"
-#MODELDIR = "/Users/rishabh.patni/opt/anaconda3/lib/python3.6/site-packages/pocketsphinx/model"
+#MODELDIR = "/anaconda3/envs/speech-evaluator/lib/python3.6/site-packages/pocketsphinx/model"
+MODELDIR = "/Users/rishabh.patni/opt/anaconda3/lib/python3.6/site-packages/pocketsphinx/model"
 DATADIR = "audio_data" #wav files
 HYPDIR = "audio_data/hypothesis" # stores test hypotheses
 
@@ -28,9 +28,9 @@ class Audio_Analyzer():
     def __init__(self, filename):
         self.filename = filename
         self.hyp_filename = 'hypothesis-'+self.filename.split('.')[0]+'.txt'
+        
         # create a decoder
         self.config = Decoder.default_config()
-        self.config.set_string('-audio_file', path.join(DATADIR, self.filename))
         self.config.set_string('-hmm', path.join(MODELDIR, 'en-us'))
         self.config.set_string('-lm', path.join(MODELDIR, 'en-us.lm.bin'))
         self.config.set_string('-dict', path.join(MODELDIR, 'cmudict-en-us.dict'))
@@ -42,13 +42,34 @@ class Audio_Analyzer():
                 o.write(word+' ')
         o.close()
 
-    def complexity(self):
-        read = read_file(HYPDIR, self.hyp_filename) # original segments
-        preprocessed = preprocess_segments(read) # only spoken words
-        word_count = len(preprocessed)
-        letter_count = sum([len(word) for word in preprocessed])
+    def complexity(self, hypothesis):
+        word_count = len(hypothesis)
+        letter_count = sum([len(word) for word in hypothesis])
         complexity = letter_count / word_count
         print('complexity: ', complexity)
+
+    def filler_words(self, hypothesis, filler='[SPEECH]'):
+        ''' Takes in a list of the hypothesis segments and an optional parameter as 
+            the filler word to search for and returns the % of the filler word's
+            occurrence. The default filler word to search for is 'um' or 'uh', 
+            represented as "[SPEECH]" in the hypothesis files. 
+            This function assumes that the segments passed in is already cleaned up
+            (only contains words spoken, no <s>, </s>, <sil>, or [NOISE])
+        '''
+        if not filler == '[SPEECH]':
+           filler = filler.lower()
+        
+        num_filler = hypothesis.count(filler)
+        total_words = len(hypothesis)
+        print('total_words:', total_words)
+        if filler == '[SPEECH]':
+            filler = 'um or uh' # for better printing in the results
+        print('number of ', filler,'said:', num_filler)
+        percent = num_filler/total_words
+        print('Percent of filler words: ', percent)
+        print('compared to TED standard frequency of filler words (0.005589%)...')
+        compare_to_standard(percent, 0.005589) # gold standard is hard coded into the program right now
+        return percent
 
     def decode(self):
         ''' Decode streaming data.'''
@@ -72,13 +93,22 @@ class Audio_Analyzer():
 
     def speed(self):
         fps = 100
-        audio = AudioFile()
+        config = {
+            'verbose': False,
+            'audio_file': path.join(DATADIR, self.filename),
+            'hmm': path.join(MODELDIR, 'en-us'),
+            'lm': path.join(MODELDIR, 'en-us.lm.bin'),
+            'dict': path.join(MODELDIR, 'cmudict-en-us.dict')
+        }
+
+        audio = AudioFile(**config)
         for phrase in audio:
             print('-' * 28)
             print('| %5s |  %3s  |  %8s  |  %18s  |   %4s   |' % ('start', 'end', 'duration', 'syllables per word', 'word'))
             print('-' * 28)
             for s in phrase.seg():
                 print('| %4ss | %4ss | %4ss | %4s | %8s |' % (s.start_frame / fps, s.end_frame / fps, round(s.end_frame / fps - s.start_frame / fps, 2), round(sylco(s.word)), s.word))
+
             print('-' * 28)
 
 
@@ -101,12 +131,13 @@ class Audio_Analyzer():
 
     def analyze_audio(self):
         if self.file_in_correct_format():
-            segments = self.decode()
-            self.speed()
-            new_list = preprocess_segments(segments)
+            hypothesis = self.decode()
+            preprocessed_hypothesis = preprocess_segments(hypothesis)
             print('\n************* RESULTS ****************')
-            filler_words(new_list)
-            self.complexity()
+            self.filler_words(preprocessed_hypothesis)
+            self.filler_words(hypothesis, '<sil>')
+            self.complexity(preprocessed_hypothesis)
+            self.speed()
 
         else:
-            raise Invalid_Audio_File_Format
+            raise InvalidAudioFileFormat
