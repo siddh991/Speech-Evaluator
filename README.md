@@ -14,41 +14,58 @@ What things you need to install the software and how to install them
 Give examples
 ```
 
-### Installing
+### Prerequisites
+A step by step guide to installing and  of examples that tell you how to get a development env running
 
-A step by step series of examples that tell you how to get a development env running
-
-#### TF Pose Estimation
-
-1. Clone tf-pose-estimation within Speech-Evaluator project directory.
+1. Clone repository.
 ```
-git clone https://github.com/ildoonet/tf-pose-estimation.git
+$ git clone https://github.com/siddh991/Speech-Evaluator.git
 ```
-2. Download Swig-4.0.2 from
+
+#### Installing Dependencies
+2. Install required libraries.
+```
+$ cd Speech-Evaluator
+$ pip3 install -r requirements.txt
+```
+
+#### Installing TF Pose Estimation
+
+3. Clone tf-pose-estimation within Speech-Evaluator project directory.
+```
+$ git clone https://github.com/ildoonet/tf-pose-estimation.git
+```
+
+4. Download Swig-4.0.2 from
 ```
 http://www.swig.org/download.html
 ```
-3. Extract swig-4.0.2.tar.gz into the tf-pose-estimation directory.
 
-4. Add the path of the extracted swig folder to your $PATH variable.
+5. Extract swig-4.0.2.tar.gz into the tf-pose-estimation directory.
 
-5. Install package.
+6. Add the path of the extracted swig folder to your $PATH variable using:
+```
+PATH='path/to/swig-4.0.2/folder':$PATH
+```
+
+7. Install package.
 ```
 $ cd tf-pose-estimation
 $ python setup.py install  # Or, `pip install -e .`
 ```
-5. Download Tensorflow Graph File(pb file)
+
+8. Download Tensorflow Graph File(pb file)
 ```
 $ cd models/graph/cmu
 $ bash download.sh
 ```
-6. Open run_webcam.py and replace 'int' with 'string' on line 24 
+
+9. Open run_webcam.py and replace 'int' with 'str' on line 27
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Siddharth Surana** - [siddh991](https://github.com/siddh991)
+* **Rishabh Patni** - [rishabh28patni](https://github.com/rishabh28patni)
 
 ## Acknowledgments
 
