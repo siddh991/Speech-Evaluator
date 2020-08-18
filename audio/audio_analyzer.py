@@ -5,7 +5,7 @@ from os import environ, path, listdir
 import sys
 import time
 import wave
-from audio_util import *
+from audio.audio_util import *
 from exceptions import *
 
 ''' ******************** speech_to_text.py ************************
@@ -18,10 +18,10 @@ from exceptions import *
     ***************************************************************
 '''
 
-#MODELDIR = "/anaconda3/envs/speech-evaluator/lib/python3.6/site-packages/pocketsphinx/model"
-MODELDIR = "/Users/rishabh.patni/opt/anaconda3/lib/python3.6/site-packages/pocketsphinx/model"
-DATADIR = "audio_data" #wav files
-HYPDIR = "audio_data/hypothesis" # stores test hypotheses
+MODELDIR = "/anaconda3/envs/speech-evaluator/lib/python3.6/site-packages/pocketsphinx/model"
+#MODELDIR = "/Users/rishabh.patni/opt/anaconda3/lib/python3.6/site-packages/pocketsphinx/model"
+DATADIR = "./audio/audio_data" #wav files
+HYPDIR = "./audio/audio_data/hypothesis" # stores test hypotheses
 
 class Audio_Analyzer():
 
