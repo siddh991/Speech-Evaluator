@@ -18,8 +18,7 @@ from exceptions import *
     ***************************************************************
 '''
 
-MODELDIR = "/anaconda3/envs/speech-evaluator/lib/python3.6/site-packages/pocketsphinx/model"
-#MODELDIR = "/Users/rishabh.patni/opt/anaconda3/lib/python3.6/site-packages/pocketsphinx/model"
+MODELDIR = "./audio/model"
 DATADIR = "./audio/audio_data" #wav files
 HYPDIR = "./audio/audio_data/hypothesis" # stores test hypotheses
 

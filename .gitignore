@@ -1,5 +1,11 @@
 *.pyc
-video_data/
+.DS_Store
+
+/video/video_data/
+/audio/audio_data/
+
 pose_estimation/tf_pose_estimation
 pose_estimation/swigwin-*/
-.DS_Store
+
+/tf_pose_estimation/
+/swigwin-*/
