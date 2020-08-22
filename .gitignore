@@ -3,9 +3,3 @@
 
 /video/video_data/
 /audio/audio_data/
-
-pose_estimation/tf_pose_estimation
-pose_estimation/swigwin-*/
-
-/tf_pose_estimation/
-/swigwin-*/

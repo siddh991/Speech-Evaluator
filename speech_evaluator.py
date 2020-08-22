@@ -22,17 +22,17 @@ if __name__=='__main__':
     if len(sys.argv) == 1:
         # if one argument provided, it's a filename
         # and assume the data directory is the default data directory
-        print("*** please speak into the microphone ***\n")	
-        start_AVrecording() 
+        # print("*** please speak into the microphone ***\n")	
+        # start_AVrecording() 
 
-        input("Press Enter to stop recording...")
-        stop_AVrecording()
+        # input("Press Enter to stop recording...")
+        # stop_AVrecording()
 
         filename = 'ahn1.wav'
-        audio_analyzer = audio_analyzer.Audio_Analyzer(filename)
+        #audio_analyzer = audio_analyzer.Audio_Analyzer(filename)
         video_analyzer = video_analyzer.Video_Analyzer(filepath='./video/video_data/vid.mp4')
         
-        audio_analyzer.analyze_audio()
+        #audio_analyzer.analyze_audio()
         video_analyzer.track_movement()
     else:
         print('ERROR: invalid # of arguement')

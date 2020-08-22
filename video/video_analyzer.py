@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import sys
 
-sys.path.insert(0, "./tf_pose_estimation")
+sys.path.insert(0, "./video/tf_pose_estimation")
 
 from tf_pose.estimator import TfPoseEstimator
 from tf_pose.networks import get_graph_path, model_wh
@@ -70,14 +70,12 @@ class Video_Analyzer():
 
             joint_locations = []
             for joint_counter in range(self.num_useful_joints):
-                print(joint_counter)
                 try:
                     joint = human.body_parts[joint_counter]
                     x = joint.x*image.shape[1]
                     y = joint.y*image.shape[0]
 
                     joint_locations.extend([x, y])
-                    print("end")
                 except:
                     pass
 
@@ -97,7 +95,6 @@ class Video_Analyzer():
         coordinates = pd.DataFrame(self.coordinates_list, columns = self.useful_joints)
 
         coordinates.to_csv('./body_position_results.csv')
-        print(coordinates)
         cv2.destroyAllWindows()
 
 if __name__ == '__main__':
