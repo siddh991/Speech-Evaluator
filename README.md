@@ -4,71 +4,42 @@ One Paragraph of project description goes here
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine. 
 
 ### Prerequisites
+A step by step guide to installing and  of examples that tell you how to get a development env 
+running
 
-What things you need to install the software and how to install them
+#### 1. Must have a Python3 environment to run project
 
-```
-Give examples
-```
-
-### Prerequisites
-A step by step guide to installing and  of examples that tell you how to get a development env running
-
-1. Clone repository.
+#### 2. Clone repository.
 ```
 $ git clone https://github.com/siddh991/Speech-Evaluator.git
 ```
 
-#### Installing Dependencies
-2. Install required libraries.
+#### 3. Add Swig to $PATH
+Step 1. Change directory to the video folder under the Speech-Evaluator project directory using the 
+following line:
 ```
-$ cd Speech-Evaluator
-$ pip3 install -r requirements.txt
+$ cd Speech-Evaluator/video/
 ```
-
-#### Installing TF Pose Estimation
-
-3. Clone tf-pose-estimation within Speech-Evaluator project directory.
+Step 2. Add the swig-4.0.2 folder to $PATH using the following line, where 'path/to/swig-4.0.2' is 
+replaced by the absolute path to the folder.
 ```
-$ git clone https://github.com/ildoonet/tf-pose-estimation.git
+$ PATH='path/to/swig-4.0.2':$PATH
 ```
 
-4. Download Swig-4.0.2 from
+## To Run Speech Evaluator
+Option 1: Double click the executable Speech Evaluator in project directory.
+Option 2: Run the following line in the project directory:
 ```
-http://www.swig.org/download.html
+$ ./SpeechEvaluator.command 
 ```
-
-5. Extract swig-4.0.2.tar.gz into the tf-pose-estimation directory.
-
-6. Add the path of the extracted swig folder to your $PATH variable using:
-```
-PATH='path/to/swig-4.0.2/folder':$PATH
-```
-
-7. Install package.
-```
-$ cd tf-pose-estimation
-$ python setup.py install  # Or, `pip install -e .`
-```
-
-8. Download Tensorflow Graph File(pb file)
-```
-$ cd models/graph/cmu
-$ bash download.sh
-```
-
-9. Open run_webcam.py and replace 'int' with 'str' on line 27
 
 ## Authors
-
 * **Siddharth Surana** - [siddh991](https://github.com/siddh991)
 * **Rishabh Patni** - [rishabh28patni](https://github.com/rishabh28patni)
 
 ## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* https://github.com/ildoonet/tf-pose-estimation
+* https://github.com/cmusphinx/pocketsphinx-python

@@ -1,5 +1,5 @@
 *.pyc
-video_data/
-pose_estimation/tf_pose_estimation
-pose_estimation/swigwin-*/
 .DS_Store
+
+/video/video_data/
+/audio/audio_data/
