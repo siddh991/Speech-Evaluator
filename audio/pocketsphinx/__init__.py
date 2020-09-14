@@ -32,7 +32,7 @@ import os
 import sys
 import signal
 from contextlib import contextmanager
-from sphinxbase import *
+from audio.pocketsphinx.sphinxbase.sphinxbase import *
 from .pocketsphinx import *
 
 
