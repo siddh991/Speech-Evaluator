@@ -1,5 +1,5 @@
 from __future__ import division
-from pocketsphinx.pocketsphinx import *
+from audio.pocketsphinx.pocketsphinx import *
 from pocketsphinx import AudioFile
 from os import environ, path, listdir
 import sys
@@ -18,7 +18,7 @@ from exceptions import *
     ***************************************************************
 '''
 
-MODELDIR = "./audio/model"
+MODELDIR = "./audio/pocketsphinx/model"
 DATADIR = "./audio/audio_data" #wav files
 HYPDIR = "./audio/audio_data/hypothesis" # stores test hypotheses
 
